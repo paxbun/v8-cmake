@@ -1,0 +1,9 @@
+.vs/
+out/
+build/
+depot_tools/
+v8/
+.cipd/
+.gclient
+.gclient_entries
+bootstrap/__pycache__
