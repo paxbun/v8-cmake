@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.13)
 project(v8-cmake)
 
 # Extract variables starting with "V8_"
-
 get_cmake_property(V8_CMAKE_VARIABLES VARIABLES)
 foreach(V8_CMAKE_VARIABLE ${V8_CMAKE_VARIABLES})
     if (V8_CMAKE_VARIABLE MATCHES "^V8_")
@@ -21,7 +20,6 @@ foreach(V8_CMAKE_VARIABLE ${V8_CMAKE_VARIABLES})
 endforeach()
 
 # Run bootstrap
-
 find_package(Python COMPONENTS Interpreter REQUIRED)
 execute_process(
     COMMAND ${Python_EXECUTABLE} "-m" "bootstrap" ${V8_VARIABLES}
@@ -36,14 +34,27 @@ endif()
 set(V8_INCLUDE_DIRS
     "${PROJECT_SOURCE_DIR}/v8"
     "${PROJECT_SOURCE_DIR}/v8/include"
+    PARENT_SCOPE
 )
 set(V8_LIBRARY_DIRS
     "${PROJECT_SOURCE_DIR}/v8/out/${V8_CONFIG_STR}/obj"
+    PARENT_SCOPE
 )
 
-unset(V8_VARIABLE)
-unset(V8_VARIABLES)
-unset(V8_VARIABLE_VALUE)
-unset(V8_CMAKE_VARIABLE)
-unset(V8_CMAKE_VARIABLES)
-unset(V8_BOOTSTRAP_RESULT)
+# Change runtime options
+set(V8_COMPILER_FLAGS
+    CMAKE_CXX_FLAGS
+    CMAKE_CXX_FLAGS_DEBUG
+    CMAKE_CXX_FLAGS_RELEASE
+    CMAKE_CXX_FLAGS_MINSIZEREL
+    CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    CMAKE_C_FLAGS
+    CMAKE_C_FLAGS_DEBUG
+    CMAKE_C_FLAGS_RELEASE
+    CMAKE_C_FLAGS_MINSIZEREL
+    CMAKE_C_FLAGS_RELWITHDEBINFO
+)
+foreach(V8_COMPILER_FLAG ${V8_COMPILER_FLAGS})
+    string(REPLACE "/MD" "/MT" ${V8_COMPILER_FLAG} "${${V8_COMPILER_FLAG}}")
+    set(${V8_COMPILER_FLAG} "${${V8_COMPILER_FLAG}}" PARENT_SCOPE)
+endforeach()
