@@ -4,7 +4,7 @@ import sys
 import os
 
 # Check platform
-supported_os_list = ["win32"] # ["win32", "linux", "darwin"]
+supported_os_list = ["win32", "linux"] # ["win32", "linux", "darwin"]
 if sys.platform not in supported_os_list:
     print_colored("Fatal error: platform '{0}' is not supported".format(sys.platform))
     exit(1)

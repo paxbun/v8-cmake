@@ -27,13 +27,14 @@ def run(*args, env=None, cwd=os.getcwd(), print_result=False):
     subprocess.run([*args], cwd=cwd, check=True, env=env, stdout=stdout)
 
 def run_cmd(*args, cwd=os.getcwd(), root=os.getcwd(), print_result=False):
-    run("cmd", "/c", *args, cwd=cwd, env=make_env(root), print_result=print_result)
+    if sys.platform == "win32":
+        run("cmd", "/c", *args, cwd=cwd, env=make_env(root), print_result=print_result)
+    else:
+        run(*args, cwd=cwd, env=make_env(root), print_result=print_result)
 
 def print_colored(*args, **kwargs):
-    if sys.platform == "win32":
-        print(colorama.Fore.LIGHTCYAN_EX + "Bootstrap:",
-              *args,
-              colorama.Style.RESET_ALL,
-              **kwargs)
-    else:
-        pass
+    print(colorama.Fore.LIGHTCYAN_EX + "Bootstrap:",
+          *args,
+          colorama.Style.RESET_ALL,
+          **kwargs,
+          flush=True)

@@ -30,10 +30,7 @@ def install_depot_tools(root=os.getcwd(), skip_intall_if_exists=True):
     return out_path
 
 def update_depot_tools(root=os.getcwd()):
-    if sys.platform == "win32":
-        run_cmd("gclient", cwd=root, root=root)
-    else:
-        pass
+    run_cmd("gclient", cwd=root, root=root)
 
 def v8_src_downloaded(root=os.getcwd()):
     gclient_path = os.path.join(root, ".gclient")
@@ -43,20 +40,19 @@ def v8_src_downloaded(root=os.getcwd()):
     return False
 
 def get_v8_src_code(root=os.getcwd()):
-    if sys.platform == "win32":
-        run_cmd("fetch", "v8", cwd=root, root=root, print_result=True)
-    else:
-        pass
+    run_cmd("fetch", "v8", cwd=root, root=root, print_result=True)
 
 def download_all_build_deps(root=os.getcwd()):
-    if sys.platform == "win32":
-        run_cmd("gclient", "sync", cwd=root, root=root, print_result=True)
-    else:
-        pass
+    run_cmd("gclient", "sync", cwd=root, root=root, print_result=True)
 
 def switch_to_version(version, root=os.getcwd()):
     v8_path = os.path.join(root, "v8")
     run_cmd("git", "checkout", "tags/{0}".format(version), cwd=v8_path, root=root, print_result=True)
+
+def download_additional_build_deps(root=os.getcwd()):
+    if sys.platform == "linux":
+        script_path = os.path.join(root, "v8", "build", "install-build-deps.sh")
+        run_cmd(script_path, cwd=root, root=root, print_result=True)
 
 def checkout(version, root=os.getcwd()):
     print_colored("Checking out the V8 source code...")
@@ -66,9 +62,11 @@ def checkout(version, root=os.getcwd()):
         install_depot_tools(root=root)
         print_colored("Updating depot_tools... This may take some time.")
         update_depot_tools(root=root)
-        print_colored("Downloading all the build dependencies...")
-        download_all_build_deps(root=root)
         print_colored("Retrieving V8 source code...")
         get_v8_src_code(root=root)
+        print_colored("Downloading all the build dependencies...")
+        download_all_build_deps(root=root)
+        print_colored("Downloading additional build dependencies...")
+        download_additional_build_deps(root=root)
     print_colored("Switch to version {0}".format(version))
     switch_to_version(version, root=root)
