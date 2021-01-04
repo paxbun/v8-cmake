@@ -1,6 +1,7 @@
 .vs/
 out/
 build/
+config/
 depot_tools/
 v8/
 .cipd/
