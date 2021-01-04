@@ -29,6 +29,12 @@ execute_process(
 if (NOT V8_BOOTSTRAP_RESULT EQUAL 0)
     message(FATAL_ERROR "Bootstrap failed")
 endif()
+file(
+    READ "${PROJECT_SOURCE_DIR}/config/definitions.${V8_CONFIG_STR}.txt"
+    V8_COMPILE_DEFINITIONS
+)
+set(V8_COMPILE_DEFINITIONS ${V8_COMPILE_DEFINITIONS} PARENT_SCOPE)
+
 
 # Set variables
 set(V8_INCLUDE_DIRS

@@ -1,5 +1,6 @@
 from .checkout import checkout
 from .build_gn import build_gn
+from .defs import write_defs
 import sys
 import os
 
@@ -41,6 +42,7 @@ if __name__ == '__main__':
 
     checkout(version=version, root=root)
     build_gn(config=config, config_str=config_str, target_name=target_name, root=root)
+    write_defs(config=config, config_str=config_str, target_name=target_name, root=root)
 
 
 # python -m bootstrap             \
