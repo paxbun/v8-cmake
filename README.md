@@ -33,7 +33,7 @@ add_subdirectory(v8-cmake)
 target_include_directories(cc3 PRIVATE ${V8_INCLUDE_DIRS})
 target_link_directories(cc3 PRIVATE ${V8_LIBRARY_DIRS})
 target_link_libraries(cc3 v8_monolith winmm dbghelp)
-target_compile_definitions(cc3 PRIVATE -D_ITERATOR_DEBUG_LEVEL=0 -DV8_COMPRESS_POINTERS)
+target_compile_definitions(cc3 PRIVATE -D_ITERATOR_DEBUG_LEVEL=0 ${V8_COMPILE_DEFINITIONS})
 ```
 
 Release mode, Ubuntu
@@ -56,7 +56,5 @@ add_subdirectory(v8-cmake)
 target_include_directories(cc3 PRIVATE ${V8_INCLUDE_DIRS})
 target_link_directories(cc3 PRIVATE ${V8_LIBRARY_DIRS})
 target_link_libraries(cc3 v8_monolith pthread)
-target_compile_definitions(cc3 PRIVATE
-    -DV8_COMPRESS_POINTERS
-)
+target_compile_definitions(cc3 PRIVATE ${V8_COMPILE_DEFINITIONS})
 ```
