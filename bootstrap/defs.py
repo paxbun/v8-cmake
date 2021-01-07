@@ -15,4 +15,8 @@ def write_defs(config, config_str, target_name, root=os.getcwd()):
     if line.startswith("defines = "):
         line = line[len("defines = "):]
     with open(config_path, "w") as config_file:
-        config_file.write(line.replace(" ", ";").replace(r"\"", "\""))
+        line = line.replace(" ", ";")
+        line = line.replace(r"\"", "\"")
+        line = line.replace("-D", "")
+        line = line.strip()
+        config_file.write(line)
