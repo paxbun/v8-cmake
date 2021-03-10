@@ -30,7 +30,7 @@ if (NOT V8_BOOTSTRAP_RESULT EQUAL 0)
     message(FATAL_ERROR "Bootstrap failed")
 endif()
 file(
-    READ "${PROJECT_SOURCE_DIR}/config/definitions.${V8_CONFIG_STR}.txt"
+    READ "${V8_ROOT}/config/definitions.${V8_CONFIG_STR}.txt"
     V8_COMPILE_DEFINITIONS
 )
 set(V8_COMPILE_DEFINITIONS ${V8_COMPILE_DEFINITIONS} PARENT_SCOPE)
@@ -38,12 +38,12 @@ set(V8_COMPILE_DEFINITIONS ${V8_COMPILE_DEFINITIONS} PARENT_SCOPE)
 
 # Set variables
 set(V8_INCLUDE_DIRS
-    "${PROJECT_SOURCE_DIR}/v8"
-    "${PROJECT_SOURCE_DIR}/v8/include"
+    "${V8_ROOT}/v8"
+    "${V8_ROOT}/v8/include"
     PARENT_SCOPE
 )
 set(V8_LIBRARY_DIRS
-    "${PROJECT_SOURCE_DIR}/v8/out/${V8_CONFIG_STR}/obj"
+    "${V8_ROOT}/v8/out/${V8_CONFIG_STR}/obj"
     PARENT_SCOPE
 )
 
